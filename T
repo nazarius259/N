@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Возрастное подтверждение</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+      max-width: 400px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #218838;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container" id="question">
+  <h2>Вам уже исполнился 21 год?</h2>
+  <button onclick="handleYes()">Да</button>
+  <button onclick="window.location.href='https://google.com'">Нет</button>
+</div>
+
+<div class="container hidden" id="redirect">
+  <h2>Спасибо за подтверждение!</h2>
+  <p>Переход через <span id="timer">5</span> секунд...</p>
+</div>
+
+<script>
+  // Базовая защита от ботов
+  const botKeywords = ["bot", "crawl", "spider", "ahrefs", "mediapartners", "google", "bingpreview"];
+  const userAgent = navigator.userAgent.toLowerCase();
+  for (let keyword of botKeywords) {
+    if (userAgent.includes(keyword)) {
+      document.body.innerHTML = "<p style='text-align:center;'>Доступ ограничен.</p>";
+      throw new Error("Bot detected");
+    }
+  }
+
+  // Переход после таймера
+  function handleYes() {
+    document.getElementById("question").style.display = "none";
+    document.getElementById("redirect").classList.remove("hidden");
+
+    let seconds = 5;
+    const countdown = setInterval(() => {
+      seconds--;
+      document.getElementById("timer").textContent = seconds;
+      if (seconds <= 0) {
+        clearInterval(countdown);
+        window.location.href = "https://example.com"; // ← Замени на свой оффер
+      }
+    }, 1000);
+  }
+</script>
+
+</body>
+</html>
